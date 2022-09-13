@@ -1,7 +1,8 @@
 package io.github.hw9636.neverenderore.common;
 
 import io.github.hw9636.neverenderore.NeverEnderOreMod;
-import net.minecraft.world.Container;
+import io.github.hw9636.neverenderore.common.oreextractor.OreExtractorBlock;
+import io.github.hw9636.neverenderore.common.oreextractor.OreExtractorBlockEntity;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;

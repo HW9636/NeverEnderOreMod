@@ -1,4 +1,4 @@
-package io.github.hw9636.neverenderore.common;
+package io.github.hw9636.neverenderore.common.oreextractor;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class OreExtractorBlock extends BaseEntityBlock {
-    protected OreExtractorBlock() {
+    public OreExtractorBlock() {
         super(BlockBehaviour.Properties.of(Material.STONE));
     }
 
