@@ -11,8 +11,8 @@ public class NEOConfig {
         private static final int defaultEnergyPerTick = 40;
 
         public final ForgeConfigSpec.ConfigValue<Integer> maxEnergyStored;
-        public final ForgeConfigSpec.ConfigValue<Integer> ticksPerCraft;
-        public final ForgeConfigSpec.ConfigValue<Integer> energyPerTick;
+        public final ForgeConfigSpec.ConfigValue<Integer> ticksPerAction;
+        public final ForgeConfigSpec.ConfigValue<Integer> energyPerAction;
 
 
         public Common(ForgeConfigSpec.Builder builder)
@@ -20,11 +20,11 @@ public class NEOConfig {
             this.maxEnergyStored = builder.comment("Max Energy Stored, range 100 - 100,000,000, default 100,000")
                     .defineInRange("maxEnergyStored", defaultMaxEnergyStored, 100,100_000_000);
 
-            this.ticksPerCraft = builder.comment("Ticks per craft in ticks, range 1 - 2048, default 20")
+            this.ticksPerAction = builder.comment("Ticks per action in ticks, range 1 - 2048, default 20")
                     .defineInRange("ticksPerCraft", defaultTicksPerCraft, 1, 2048);
 
-            this.energyPerTick = builder.comment("Energy per tick of crafting, range 1 - 8192, default 40")
-                    .defineInRange("energyPerTick", defaultEnergyPerTick, 1, 8192);
+            this.energyPerAction = builder.comment("Energy per action, range 1 - 32000, default 200")
+                    .defineInRange("energyPerTick", defaultEnergyPerTick, 1, 32000);
         }
     }
 

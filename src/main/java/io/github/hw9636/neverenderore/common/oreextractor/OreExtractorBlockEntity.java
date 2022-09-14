@@ -48,8 +48,13 @@ public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStora
     public void tickServer() {
         if (level == null || level.isClientSide) return; // Only server-side ticks
 
-        if (level.getBlockState(worldPosition.below()).is(Blocks.STONE)) {
-            System.out.println("Working...");
+        if (++this.progress >= NEOConfig.COMMON.ticksPerAction.get()) {
+            this.progress = 0;
+
+            if (this.energyStored >= NEOConfig.COMMON.energyPerAction.get()) {
+
+            }
+            else this.state = STATE_NO_ENERGY;
         }
     }
 
@@ -208,5 +213,9 @@ public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStora
     @Override
     public boolean canReceive() {
         return this.energyStored < NEOConfig.COMMON.maxEnergyStored.get();
+    }
+
+    public int getProgress() {
+        return progress;
     }
 }
