@@ -22,7 +22,7 @@ public class ModLang extends LanguageProvider {
         translations.put("cinnabar", "Never Ender Cinnabar Ore");
         translations.put("coal", "Never Ender Coal Ore");
         translations.put("copper", "Never Ender Copper Ore");
-        translations.put("diamond", "Never Ender Diamond ore");
+        translations.put("diamond", "Never Ender Diamond Ore");
         translations.put("emerald", "Never Ender Emerald Ore");
         translations.put("gold", "Never Ender Gold Ore");
         translations.put("iron", "Never Ender Iron Ore");
