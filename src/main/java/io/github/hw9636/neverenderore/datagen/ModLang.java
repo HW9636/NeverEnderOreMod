@@ -15,6 +15,7 @@ public class ModLang extends LanguageProvider {
     @Override
     protected void addTranslations() {
         addBlock(ModRegistration.ORE_EXTRACTOR_BLOCK, "Ore Extractor");
+        addItem(ModRegistration.ORE_REMOVER, "Ore Remover");
 
         HashMap<String, String> translations = new HashMap<>();
 

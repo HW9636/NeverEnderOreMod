@@ -44,6 +44,9 @@ public class ModRegistration {
     public static final RegistryObject<BlockItem> ORE_EXTRACTOR_ITEM = ITEMS.register("ore_extractor",
             () -> new BlockItem(ORE_EXTRACTOR_BLOCK.get(), new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
 
+    public static final RegistryObject<Item> ORE_REMOVER = ITEMS.register("ore_remover",
+            () -> new Item(new Item.Properties().tab(MOD_TAB)));
+
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, NeverEnderOreMod.MODID);
     @SuppressWarnings("ConstantConditions")
     public static final RegistryObject<BlockEntityType<OreExtractorBlockEntity>> ORE_EXTRACTOR_BE = BLOCK_ENTITIES.register("ore_extractor",
