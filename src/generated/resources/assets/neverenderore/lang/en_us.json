@@ -2,7 +2,7 @@
   "block.neverenderore.never_ender_cinnabar_ore": "Never Ender Cinnabar Ore",
   "block.neverenderore.never_ender_coal_ore": "Never Ender Coal Ore",
   "block.neverenderore.never_ender_copper_ore": "Never Ender Copper Ore",
-  "block.neverenderore.never_ender_diamond_ore": "Never Ender Diamond ore",
+  "block.neverenderore.never_ender_diamond_ore": "Never Ender Diamond Ore",
   "block.neverenderore.never_ender_emerald_ore": "Never Ender Emerald Ore",
   "block.neverenderore.never_ender_gold_ore": "Never Ender Gold Ore",
   "block.neverenderore.never_ender_iron_ore": "Never Ender Iron Ore",
@@ -20,5 +20,6 @@
   "block.neverenderore.never_ender_sulfur_ore": "Never Ender Sulfur Ore",
   "block.neverenderore.never_ender_tin_ore": "Never Ender Tin Ore",
   "block.neverenderore.never_ender_uranium_ore": "Never Ender Uranium Ore",
-  "block.neverenderore.ore_extractor": "Ore Extractor"
+  "block.neverenderore.ore_extractor": "Ore Extractor",
+  "item.neverenderore.ore_remover": "Ore Remover"
 }

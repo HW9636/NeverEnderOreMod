@@ -11,6 +11,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,7 +28,7 @@ public class ModLootTables extends LootTableProvider {
 
     @Override
     protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables() {
-        return List.of();
+        return List.of(Pair.of(BlockLoot::new, LootContextParamSets.BLOCK));
     }
 
     @Override
@@ -48,8 +49,6 @@ public class ModLootTables extends LootTableProvider {
         @Override
         protected void addTables() {
             dropSelf(ModRegistration.ORE_EXTRACTOR_BLOCK.get());
-
-            ModRegistration.ORES.getEntries().stream().map(RegistryObject::get).forEach(this::dropSelf);
         }
     }
 }

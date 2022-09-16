@@ -3,11 +3,13 @@ package io.github.hw9636.neverenderore.common;
 import io.github.hw9636.neverenderore.NeverEnderOreMod;
 import io.github.hw9636.neverenderore.common.oreextractor.OreExtractorBlock;
 import io.github.hw9636.neverenderore.common.oreextractor.OreExtractorBlockEntity;
+import io.github.hw9636.neverenderore.common.recipe.NeverEnderOreSerializer;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -53,6 +55,11 @@ public class ModRegistration {
             () -> BlockEntityType.Builder.of(OreExtractorBlockEntity::new, ORE_EXTRACTOR_BLOCK.get()).build(null));
 
     public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, NeverEnderOreMod.MODID);
+
+    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, NeverEnderOreMod.MODID);
+
+    public static final RegistryObject<NeverEnderOreSerializer> NEVer_ENDER_ORE_RECIPE_SERIALIZER =
+            RECIPE_SERIALIZERS.register("never_ender_ore_extracting", () -> NeverEnderOreSerializer.INSTANCE);
 
     static {
 

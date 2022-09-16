@@ -1,18 +1,16 @@
 package io.github.hw9636.neverenderore.common;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FluidState;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class NeverEnderOre extends Block {
     public NeverEnderOre() {
@@ -20,16 +18,12 @@ public class NeverEnderOre extends Block {
     }
 
     @Override
-    public void destroy(@NotNull LevelAccessor pLevel, BlockPos pPos, BlockState pState) {
+    public void playerDestroy(@NotNull Level level, @NotNull Player player, @NotNull BlockPos pos,
+                              @NotNull BlockState state, @Nullable BlockEntity pBlockEntity, @NotNull ItemStack tool) {
+        super.playerDestroy(level, player, pos, state, pBlockEntity, tool);
 
-        if (pState.is(this)) {
-            pLevel.setBlock(pPos, pState, 1);
-        }
-        boolean creative = pLevel.players().get(0).isCreative();
-        boolean hasCorrectItem = pLevel.players().get(0).getMainHandItem().is(ModRegistration.ORE_REMOVER.get());
-
-        if (pState.is(this) && creative || hasCorrectItem) {
-            pLevel.setBlock(pPos, Blocks.AIR.defaultBlockState(),1);
+        if (!player.isCreative() && !tool.is(ModRegistration.ORE_REMOVER.get()) ) {
+            if (state.is(this)) level.setBlockAndUpdate(pos, state);
         }
     }
 }

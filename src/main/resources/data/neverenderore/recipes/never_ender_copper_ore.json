@@ -1,0 +1,7 @@
+{
+  "type": "neverenderore:never_ender_ore_extracting",
+  "block": "neverenderore:never_ender_copper_ore",
+  "result": {
+    "item": "minecraft:dirt"
+  }
+}

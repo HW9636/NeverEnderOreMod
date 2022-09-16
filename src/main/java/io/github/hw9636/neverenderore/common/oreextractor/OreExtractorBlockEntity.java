@@ -2,6 +2,7 @@ package io.github.hw9636.neverenderore.common.oreextractor;
 
 import io.github.hw9636.neverenderore.common.ModRegistration;
 import io.github.hw9636.neverenderore.common.config.NEOConfig;
+import io.github.hw9636.neverenderore.common.recipe.NeverEnderRecipeType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -47,6 +48,11 @@ public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStora
 
     public void tickServer() {
         if (level == null || level.isClientSide) return; // Only server-side ticks
+
+        // testing only
+        level.getRecipeManager().getAllRecipesFor(NeverEnderRecipeType.INSTANCE).forEach((r) -> {
+            System.out.println("Recipe: " + r.getValidBlock() +", " + r.getResultItem());
+        });
 
         if (++this.progress >= NEOConfig.COMMON.ticksPerAction.get()) {
             this.progress = 0;
