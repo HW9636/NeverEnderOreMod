@@ -17,30 +17,57 @@ public class ModLang extends LanguageProvider {
         addBlock(ModRegistration.ORE_EXTRACTOR_BLOCK, "Ore Extractor");
         addItem(ModRegistration.ORE_REMOVER, "Ore Remover");
 
-        HashMap<String, String> translations = new HashMap<>();
+        HashMap<String, String> oreTrans = new HashMap<>();
 
-        translations.put("cinnabar", "Never Ender Cinnabar Ore");
-        translations.put("coal", "Never Ender Coal Ore");
-        translations.put("copper", "Never Ender Copper Ore");
-        translations.put("diamond", "Never Ender Diamond Ore");
-        translations.put("emerald", "Never Ender Emerald Ore");
-        translations.put("gold", "Never Ender Gold Ore");
-        translations.put("iron", "Never Ender Iron Ore");
-        translations.put("lapis", "Never Ender Lapis Ore");
-        translations.put("lead", "Never Ender Lead Ore");
-        translations.put("nickel", "Never Ender Nickel Ore");
-        translations.put("niter", "Never Ender Tier Ore");
-        translations.put("oil_sand", "Never Ender Oil Sand Ore");
-        translations.put("osmium_ore", "Never Ender Osmium Ore");
-        translations.put("quartz", "Never Ender Quartz Ore");
-        translations.put("redstone", "Never Ender Redstone Ore");
-        translations.put("ruby", "Never Ender Ruby Ore");
-        translations.put("sapphire", "Never Ender Sapphire Ore");
-        translations.put("silver", "Never Ender Silver ore");
-        translations.put("sulfur", "Never Ender Sulfur Ore");
-        translations.put("tin", "Never Ender Tin Ore");
-        translations.put("uranium", "Never Ender Uranium Ore");
+        oreTrans.put("aluminium", "Never Ender Aluminium Ore");
+        oreTrans.put("cinnabar", "Never Ender Cinnabar Ore");
+        oreTrans.put("coal", "Never Ender Coal Ore");
+        oreTrans.put("copper", "Never Ender Copper Ore");
+        oreTrans.put("diamond", "Never Ender Diamond Ore");
+        oreTrans.put("emerald", "Never Ender Emerald Ore");
+        oreTrans.put("gold", "Never Ender Gold Ore");
+        oreTrans.put("iron", "Never Ender Iron Ore");
+        oreTrans.put("lapis", "Never Ender Lapis Ore");
+        oreTrans.put("lead", "Never Ender Lead Ore");
+        oreTrans.put("nickel", "Never Ender Nickel Ore");
+        oreTrans.put("niter", "Never Ender Tier Ore");
+        oreTrans.put("oil_sand", "Never Ender Oil Sand Ore");
+        oreTrans.put("osmium_ore", "Never Ender Osmium Ore");
+        oreTrans.put("quartz", "Never Ender Quartz Ore");
+        oreTrans.put("redstone", "Never Ender Redstone Ore");
+        oreTrans.put("ruby", "Never Ender Ruby Ore");
+        oreTrans.put("sapphire", "Never Ender Sapphire Ore");
+        oreTrans.put("silver", "Never Ender Silver ore");
+        oreTrans.put("sulfur", "Never Ender Sulfur Ore");
+        oreTrans.put("tin", "Never Ender Tin Ore");
+        oreTrans.put("uraninite", "Never Ender Uraninite Ore");
+        oreTrans.put("uranium", "Never Ender Uranium Ore");
 
-        translations.forEach((k, v) -> add("block.neverenderore.never_ender_" + k + "_ore", v));
+        oreTrans.forEach((k, v) -> add("block.neverenderore.never_ender_" + k + "_ore", v));
+
+        HashMap<String, String> rawTrans = new HashMap<>();
+
+        rawTrans.put("aluminium", "Raw Aluminium");
+        rawTrans.put("cinnabar", "Raw Cinnabar");
+        rawTrans.put("coal", "Raw Coal");
+        rawTrans.put("diamond", "Raw Diamond");
+        rawTrans.put("emerald", "Raw Emerald");
+        rawTrans.put("lapis", "Raw Lapis");
+        rawTrans.put("lead", "Raw Lead");
+        rawTrans.put("nickel", "Raw Nickel");
+        rawTrans.put("niter", "Raw Niter");
+        rawTrans.put("oil_sand", "Raw Oil Sand");
+        rawTrans.put("osmium", "Raw Osmium");
+        rawTrans.put("quartz", "Raw Quartz");
+        rawTrans.put("redstone", "Raw Redstone");
+        rawTrans.put("ruby", "Raw Ruby");
+        rawTrans.put("sapphire", "Raw Sapphire");
+        rawTrans.put("silver", "Raw Silver");
+        rawTrans.put("sulfur", "Raw Sulfur");
+        rawTrans.put("tin", "Raw Tin");
+        rawTrans.put("uraninite", "Raw Uraninite");
+        rawTrans.put("uranium", "Raw Uranium");
+
+        rawTrans.forEach((k, v) -> add("item.neverenderore.raw_never_ender_" + k, v));
     }
 }

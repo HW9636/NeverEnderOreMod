@@ -1,0 +1,8 @@
+{
+  "type": "neverenderore:never_ender_ore_extracting",
+  "block": "neverenderore:never_ender_copper_ore",
+  "result": {
+    "count": 1,
+    "item": "minecraft:raw_copper"
+  }
+}

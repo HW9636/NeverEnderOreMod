@@ -17,7 +17,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("unused")
@@ -27,7 +29,11 @@ public class ModRegistration {
             "never_ender_diamond", "never_ender_emerald", "never_ender_gold", "never_ender_iron",
             "never_ender_lapis", "never_ender_lead", "never_ender_nickel", "never_ender_niter",
             "never_ender_oil_sand", "never_ender_osmium", "never_ender_quartz", "never_ender_redstone",
-            "never_ender_ruby", "never_ender_sapphire", "never_ender_sulfur", "never_ender_tin", "never_ender_uranium"};
+            "never_ender_ruby", "never_ender_sapphire", "never_ender_sulfur", "never_ender_tin", "never_ender_uranium",
+            "never_ender_aluminium", "never_ender_uraninite"};
+
+    public static final List<String> EXCLUDED_RAW_TYPES = List.of("never_ender_gold", "never_ender_iron", "never_ender_copper");
+
     public static final CreativeModeTab MOD_TAB = new CreativeModeTab(NeverEnderOreMod.MODID) {
         @Override
         public @NotNull ItemStack makeIcon() {
@@ -43,8 +49,10 @@ public class ModRegistration {
 
     public static final DeferredRegister<Item> ORE_ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, NeverEnderOreMod.MODID);
 
+    public static final DeferredRegister<Item> RAW_ORE_ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, NeverEnderOreMod.MODID);
+
     public static final RegistryObject<BlockItem> ORE_EXTRACTOR_ITEM = ITEMS.register("ore_extractor",
-            () -> new BlockItem(ORE_EXTRACTOR_BLOCK.get(), new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
+            () -> new BlockItem(ORE_EXTRACTOR_BLOCK.get(), new Item.Properties().tab(MOD_TAB)));
 
     public static final RegistryObject<Item> ORE_REMOVER = ITEMS.register("ore_remover",
             () -> new Item(new Item.Properties().tab(MOD_TAB)));
@@ -67,6 +75,8 @@ public class ModRegistration {
             RegistryObject<Block> block = ORES.register(type + "_ore", NeverEnderOre::new);
             ORE_ITEMS.register(type + "_ore",
                     () -> new BlockItem(block.get(), new Item.Properties().tab(MOD_TAB)));
+
+            if (!EXCLUDED_RAW_TYPES.contains(type)) RAW_ORE_ITEMS.register("raw_" + type, RawNeverEnderItem::new);
         }
     }
 

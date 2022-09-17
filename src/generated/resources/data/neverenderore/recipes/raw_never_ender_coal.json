@@ -1,0 +1,8 @@
+{
+  "type": "neverenderore:never_ender_ore_extracting",
+  "block": "neverenderore:never_ender_coal_ore",
+  "result": {
+    "count": 1,
+    "item": "neverenderore:raw_never_ender_coal"
+  }
+}

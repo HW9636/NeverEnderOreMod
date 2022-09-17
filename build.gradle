@@ -118,6 +118,10 @@ dependencies {
     implementation fg.deobf("mcjty.theoneprobe:theoneprobe:${top_version}") {
         transitive = false
     }
+
+    // Mekanism
+    runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")// core
+
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

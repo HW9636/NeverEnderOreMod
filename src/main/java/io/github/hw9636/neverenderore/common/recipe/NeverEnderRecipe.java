@@ -8,6 +8,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import org.jetbrains.annotations.NotNull;
 
 public class NeverEnderRecipe implements Recipe<SimpleContainer> {
 
@@ -25,13 +26,15 @@ public class NeverEnderRecipe implements Recipe<SimpleContainer> {
         return validBlock;
     }
 
+    @Deprecated
     @Override
-    public boolean matches(SimpleContainer pContainer, Level pLevel) {
+    public boolean matches(@NotNull SimpleContainer pContainer, @NotNull Level pLevel) {
         return false;
     }
 
+    @Deprecated
     @Override
-    public ItemStack assemble(SimpleContainer pContainer) {
+    public ItemStack assemble(@NotNull SimpleContainer pContainer) {
         return null;
     }
 
@@ -41,22 +44,22 @@ public class NeverEnderRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public ItemStack getResultItem() {
+    public @NotNull ItemStack getResultItem() {
         return result.copy();
     }
 
     @Override
-    public ResourceLocation getId() {
+    public @NotNull ResourceLocation getId() {
         return id;
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public @NotNull RecipeSerializer<?> getSerializer() {
         return NeverEnderOreSerializer.INSTANCE;
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public @NotNull RecipeType<?> getType() {
         return NeverEnderRecipeType.INSTANCE;
     }
 }

@@ -1,6 +1,7 @@
 package io.github.hw9636.neverenderore.datagen;
 
 import com.mojang.datafixers.util.Pair;
+import io.github.hw9636.neverenderore.NeverEnderOreMod;
 import io.github.hw9636.neverenderore.common.ModRegistration;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.BlockLoot;
@@ -41,9 +42,11 @@ public class ModLootTables extends LootTableProvider {
 
         @Override
         protected @NotNull Iterable<Block> getKnownBlocks() {
-            List<Block> validBlocks = new java.util.ArrayList<>(ModRegistration.BLOCKS.getEntries().stream().map(RegistryObject::get).toList());
-            validBlocks.addAll(ModRegistration.ORES.getEntries().stream().map(RegistryObject::get).toList());
-            return validBlocks;
+            //List<Block> validBlocks = new java.util.ArrayList<>(ModRegistration.BLOCKS.getEntries().stream().map(RegistryObject::get).toList());
+            //validBlocks.addAll(ModRegistration.ORES.getEntries().stream().map(RegistryObject::get).toList());
+           // return validBlocks;
+
+            return List.of(ModRegistration.ORE_EXTRACTOR_BLOCK.get());
         }
 
         @Override

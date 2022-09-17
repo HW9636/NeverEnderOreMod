@@ -2,6 +2,7 @@ package io.github.hw9636.neverenderore.common.oreextractor;
 
 import io.github.hw9636.neverenderore.common.ModRegistration;
 import io.github.hw9636.neverenderore.common.config.NEOConfig;
+import io.github.hw9636.neverenderore.common.recipe.NeverEnderRecipe;
 import io.github.hw9636.neverenderore.common.recipe.NeverEnderRecipeType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,7 +13,7 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -24,12 +25,15 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
+
 public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStorage {
 
     // States
     public static final int STATE_OK = 0;
     public static final int STATE_INVALID_BLOCk = 1;
     public static final int STATE_NO_ENERGY = 2;
+    public static final int STATE_STORAGE_FULL = 3;
 
     private int energyStored, progress, state;
     private boolean canInsert;
@@ -49,20 +53,28 @@ public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStora
     public void tickServer() {
         if (level == null || level.isClientSide) return; // Only server-side ticks
 
-        // testing only
-        level.getRecipeManager().getAllRecipesFor(NeverEnderRecipeType.INSTANCE).forEach((r) -> {
-            System.out.println("Recipe: " + r.getValidBlock() +", " + r.getResultItem());
-        });
+        if (this.energyStored <= 0) return; // Reduce calculations when no energy
 
         if (++this.progress >= NEOConfig.COMMON.ticksPerAction.get()) {
             this.progress = 0;
 
             if (this.energyStored >= NEOConfig.COMMON.energyPerAction.get()) {
+                BlockState blockBelow = level.getBlockState(worldPosition.below());
+                Optional<NeverEnderRecipe> recipe = level.getRecipeManager().getAllRecipesFor(NeverEnderRecipeType.INSTANCE).stream()
+                        .filter(r -> blockBelow.is(r.getValidBlock())).findAny();
 
+                if (recipe.isPresent()) {
+                    this.state = STATE_OK;
+                    this.energyStored -= NEOConfig.COMMON.ticksPerAction.get();
+                     if (!insertItem(recipe.get().getResultItem()).isEmpty())
+                         this.state = STATE_STORAGE_FULL;
+                }
+                else this.state = STATE_INVALID_BLOCk;
             }
             else this.state = STATE_NO_ENERGY;
         }
     }
+
 
     // Data Sync
 
@@ -99,6 +111,19 @@ public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStora
     }
 
     // Inventory
+
+    private ItemStack insertItem(ItemStack item) {
+        if (itemHandlerLazy.isPresent()) {
+            IItemHandler inv = itemHandlerLazy.orElse(null);
+            for (int i = 0;i<inv.getSlots();i++) {
+                canInsert = true;
+                item = inv.insertItem(i, item.copy(), false);
+                if (item.isEmpty()) return ItemStack.EMPTY;
+            }
+        }
+
+        return item;
+    }
 
     private ItemStackHandler createInventory() {
         return new ItemStackHandler(4) {

@@ -2,7 +2,6 @@ package io.github.hw9636.neverenderore.common.recipe;
 
 import com.google.gson.JsonObject;
 import io.github.hw9636.neverenderore.NeverEnderOreMod;
-import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -10,9 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.apache.commons.lang3.CharSet;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
