@@ -1,4 +1,4 @@
-// 1.19.2	2022-09-17T09:55:10.7760826	Item Models: neverenderore
+// 1.19.2	2022-09-18T16:35:59.8325113	Item Models: neverenderore
 8d10c2c0cf63232f53a30d5e5124bcbf49a1be3c assets/neverenderore/models/item/never_ender_aluminium_ore.json
 cc9f79e701fc3ece7ef36e0c4552ce9df0c430eb assets/neverenderore/models/item/never_ender_cinnabar_ore.json
 ba7129c6f98f9e35bce3b9a54f595afd181cada5 assets/neverenderore/models/item/never_ender_coal_ore.json
@@ -21,6 +21,7 @@ e6bba192731059c12a3d743994f1feead16c2efc assets/neverenderore/models/item/never_
 dad007d94d3f878f5f87e65a63e4d3fb72e6b22a assets/neverenderore/models/item/never_ender_tin_ore.json
 2d7d1a0628d18ec6e4fdc059e26faca257ea1a15 assets/neverenderore/models/item/never_ender_uraninite_ore.json
 f50d10bb5f6883a9af6b095e84f7927f50ff5f67 assets/neverenderore/models/item/never_ender_uranium_ore.json
+7e9922b0d8f9cef9a3cbb67cb15a27eccf301207 assets/neverenderore/models/item/ore_extractor.json
 29e32faa95574895407c76e4357064b4923caf81 assets/neverenderore/models/item/raw_never_ender_aluminium.json
 e7a0059d736fd3f0424faeedc3de2aa18c61e981 assets/neverenderore/models/item/raw_never_ender_cinnabar.json
 2f996b1be7a5464eadcc6dbc8791cae0a1057d84 assets/neverenderore/models/item/raw_never_ender_coal.json

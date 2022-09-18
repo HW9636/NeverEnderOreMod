@@ -28,5 +28,7 @@ public class ModItemModels extends ItemModelProvider {
                     .parent(new ModelFile.UncheckedModelFile("item/generated"))
                     .texture("layer0", new ResourceLocation(NeverEnderOreMod.MODID, "raw/" + r.getId().getPath()));
         });
+
+        withExistingParent(ModRegistration.ORE_EXTRACTOR_BLOCK.getId().getPath(), modLoc("block/ore_extractor"));
     }
 }

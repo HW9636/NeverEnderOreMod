@@ -23,6 +23,7 @@
   "block.neverenderore.never_ender_uraninite_ore": "Never Ender Uraninite Ore",
   "block.neverenderore.never_ender_uranium_ore": "Never Ender Uranium Ore",
   "block.neverenderore.ore_extractor": "Ore Extractor",
+  "container.neverenderore.ore_extractor": "Ore Extractor",
   "item.neverenderore.ore_remover": "Ore Remover",
   "item.neverenderore.raw_never_ender_aluminium": "Raw Aluminium",
   "item.neverenderore.raw_never_ender_cinnabar": "Raw Cinnabar",
@@ -43,5 +44,10 @@
   "item.neverenderore.raw_never_ender_sulfur": "Raw Sulfur",
   "item.neverenderore.raw_never_ender_tin": "Raw Tin",
   "item.neverenderore.raw_never_ender_uraninite": "Raw Uraninite",
-  "item.neverenderore.raw_never_ender_uranium": "Raw Uranium"
+  "item.neverenderore.raw_never_ender_uranium": "Raw Uranium",
+  "title.never_ender_ore.jei_category": "Ore Extracting",
+  "tooltip.neverenderore.state_invalid_block": "State: Not Valid Block To Mine",
+  "tooltip.neverenderore.state_no_energy": "State: Not Enough Energy",
+  "tooltip.neverenderore.state_ok": "State: OK (Using %s FE per Mine)",
+  "tooltip.neverenderore.state_storage_full": "State: Not Enough Storage"
 }

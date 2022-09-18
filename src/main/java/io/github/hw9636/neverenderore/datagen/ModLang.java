@@ -69,5 +69,12 @@ public class ModLang extends LanguageProvider {
         rawTrans.put("uranium", "Raw Uranium");
 
         rawTrans.forEach((k, v) -> add("item.neverenderore.raw_never_ender_" + k, v));
+
+        add("container.neverenderore.ore_extractor", "Ore Extractor");
+        add("tooltip.neverenderore.state_ok", "State: OK (Using %s FE per Mine)");
+        add("tooltip.neverenderore.state_no_energy", "State: Not Enough Energy");
+        add("tooltip.neverenderore.state_invalid_block", "State: Not Valid Block To Mine");
+        add("tooltip.neverenderore.state_storage_full", "State: Not Enough Storage");
+        add("title.never_ender_ore.jei_category", "Ore Extracting");
     }
 }

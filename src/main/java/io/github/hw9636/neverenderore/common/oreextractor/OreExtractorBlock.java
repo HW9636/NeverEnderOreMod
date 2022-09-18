@@ -2,8 +2,11 @@ package io.github.hw9636.neverenderore.common.oreextractor;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -17,12 +20,16 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class OreExtractorBlock extends BaseEntityBlock {
+
+    public static final Component TITLE = Component.translatable("container.neverenderore.ore_extractor");
+
     public OreExtractorBlock() {
         super(BlockBehaviour.Properties.of(Material.STONE));
     }
@@ -31,7 +38,13 @@ public class OreExtractorBlock extends BaseEntityBlock {
     @Override
     public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
                                           @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
-        return super.use(state, level, pos, player, hand, hitResult);
+
+        if (!level.isClientSide && level.getBlockEntity(pos) instanceof OreExtractorBlockEntity be) {
+            final MenuProvider menu = new SimpleMenuProvider(OreExtractorContainer.getServerContainer(be, pos), TITLE);
+            NetworkHooks.openScreen((ServerPlayer) player, menu, pos);
+        }
+
+        return InteractionResult.SUCCESS;
     }
 
     @Override

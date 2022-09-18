@@ -13,7 +13,6 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -37,8 +36,9 @@ public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStora
 
     private int energyStored, progress, state;
     private boolean canInsert;
-    private ItemStackHandler itemHandler;
+    ItemStackHandler itemHandler;
     private LazyOptional<IItemHandler> itemHandlerLazy;
+    final ContainerData data;
 
     public OreExtractorBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModRegistration.ORE_EXTRACTOR_BE.get(), pPos, pBlockState);
@@ -48,6 +48,8 @@ public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStora
         this.energyStored = 0;
         this.progress = 0;
         this.canInsert = false;
+        this.data = getData();
+        this.state = STATE_INVALID_BLOCk;
     }
 
     public void tickServer() {
@@ -248,5 +250,9 @@ public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStora
 
     public int getProgress() {
         return progress;
+    }
+
+    public int getState() {
+        return state;
     }
 }

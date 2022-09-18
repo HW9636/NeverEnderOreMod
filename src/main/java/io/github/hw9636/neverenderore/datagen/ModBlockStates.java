@@ -7,6 +7,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.client.model.generators.ModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -26,5 +27,11 @@ public class ModBlockStates extends BlockStateProvider {
                     new ResourceLocation(NeverEnderOreMod.MODID, "ore/" + block.getId().getPath()));
             simpleBlock(b, file);
         }
+
+        ResourceLocation loc = ModRegistration.ORE_EXTRACTOR_BLOCK.getId();
+        simpleBlock(ModRegistration.ORE_EXTRACTOR_BLOCK.get(), models().cubeBottomTop(loc.getPath(),
+                new ResourceLocation(NeverEnderOreMod.MODID, "block/ore_extractor_side"),
+                new ResourceLocation(NeverEnderOreMod.MODID, "block/ore_extractor_bottom"),
+                new ResourceLocation(NeverEnderOreMod.MODID, "block/ore_extractor_top")));
     }
 }

@@ -3,6 +3,7 @@ package io.github.hw9636.neverenderore.common;
 import io.github.hw9636.neverenderore.NeverEnderOreMod;
 import io.github.hw9636.neverenderore.common.oreextractor.OreExtractorBlock;
 import io.github.hw9636.neverenderore.common.oreextractor.OreExtractorBlockEntity;
+import io.github.hw9636.neverenderore.common.oreextractor.OreExtractorContainer;
 import io.github.hw9636.neverenderore.common.recipe.NeverEnderOreSerializer;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
@@ -63,6 +64,9 @@ public class ModRegistration {
             () -> BlockEntityType.Builder.of(OreExtractorBlockEntity::new, ORE_EXTRACTOR_BLOCK.get()).build(null));
 
     public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, NeverEnderOreMod.MODID);
+
+    public static final RegistryObject<MenuType<OreExtractorContainer>> ORE_EXTRACTOR_CONTAINER = CONTAINERS.register("ore_extractor",
+            () -> new MenuType<>(OreExtractorContainer::new));
 
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, NeverEnderOreMod.MODID);
 
