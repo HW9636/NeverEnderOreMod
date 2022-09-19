@@ -53,6 +53,8 @@ public class NeverEnderOreMod
         ModRegistration.ORE_ITEMS.register(modEventBus);
         ModRegistration.RAW_ORE_ITEMS.register(modEventBus);
         ModRegistration.RECIPE_SERIALIZERS.register(modEventBus);
+        ModRegistration.CONFIGURED_FEATURES.register(modEventBus);
+        ModRegistration.PLACED_FEATURES.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
 

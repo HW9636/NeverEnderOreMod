@@ -1,10 +1,12 @@
 package io.github.hw9636.neverenderore.common;
 
+import com.google.common.base.Suppliers;
 import io.github.hw9636.neverenderore.NeverEnderOreMod;
 import io.github.hw9636.neverenderore.common.oreextractor.OreExtractorBlock;
 import io.github.hw9636.neverenderore.common.oreextractor.OreExtractorBlockEntity;
 import io.github.hw9636.neverenderore.common.oreextractor.OreExtractorContainer;
 import io.github.hw9636.neverenderore.common.recipe.NeverEnderOreSerializer;
+import net.minecraft.core.Registry;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -12,7 +14,17 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.levelgen.VerticalAnchor;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.placement.CountPlacement;
+import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
+import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -22,6 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public class ModRegistration {
@@ -73,6 +86,8 @@ public class ModRegistration {
     public static final RegistryObject<NeverEnderOreSerializer> NEVer_ENDER_ORE_RECIPE_SERIALIZER =
             RECIPE_SERIALIZERS.register("never_ender_ore_extracting", () -> NeverEnderOreSerializer.INSTANCE);
 
+    public static final Supplier<List<OreConfiguration.TargetBlockState>> MOD_ORES;
+
     static {
 
         for (String type : ORE_TYPES) {
@@ -82,6 +97,29 @@ public class ModRegistration {
 
             if (!EXCLUDED_RAW_TYPES.contains(type)) RAW_ORE_ITEMS.register("raw_" + type, RawNeverEnderItem::new);
         }
+
+        MOD_ORES = Suppliers.memoize(() -> {
+            List<OreConfiguration.TargetBlockState> targetBlockStates = new ArrayList<>();
+            ORES.getEntries().stream().map(RegistryObject::get).forEach(b -> {
+                targetBlockStates.add(OreConfiguration.target(new BlockMatchTest(Blocks.END_STONE), b.defaultBlockState()));
+            });
+            return targetBlockStates;
+        });
     }
 
+    public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, NeverEnderOreMod.MODID);
+
+    public static final int VEIN_SIZE = 9;
+    public static final RegistryObject<ConfiguredFeature<?, ?>> END_ORES = CONFIGURED_FEATURES.register("never_ender_ore",
+            () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(MOD_ORES.get(), VEIN_SIZE)));
+
+    public static final DeferredRegister<PlacedFeature> PLACED_FEATURES =
+            DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, NeverEnderOreMod.MODID);
+
+    public static final RegistryObject<PlacedFeature> NEVER_ENDER_ORE_FEATURE =
+            PLACED_FEATURES.register("never_ender_ore_placed",
+                    () -> new PlacedFeature(END_ORES.getHolder().get(),
+                            List.of(CountPlacement.of(VEIN_SIZE), InSquarePlacement.spread(),
+                                    HeightRangePlacement.uniform(VerticalAnchor.absolute(10),
+                                            VerticalAnchor.absolute(180)))));
 }

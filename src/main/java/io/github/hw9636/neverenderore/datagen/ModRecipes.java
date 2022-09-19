@@ -14,22 +14,22 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
 import java.util.HashMap;
 import java.util.function.Consumer;
 
+@SuppressWarnings("deprecated")
 public class ModRecipes extends RecipeProvider {
 
-    private static Logger logger = LogUtils.getLogger();
+    private static final Logger logger = LogUtils.getLogger();
     public ModRecipes(DataGenerator generator) {
         super(generator);
     }
 
     @Override
-    protected void buildCraftingRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
+    protected void buildCraftingRecipes(@NotNull Consumer<FinishedRecipe> finishedRecipeConsumer) {
         HashMap<Block, ItemStack> extractingRecipes = new HashMap<>();
         HashMap<String, Block> mappedBlocks = new HashMap<>();
         HashMap<String, Item> mappedItems = new HashMap<>();
@@ -53,7 +53,7 @@ public class ModRecipes extends RecipeProvider {
 
         extractingRecipes.forEach((k, v) -> new NeverEnderRecipeBuilder().setBlock(k).setResult(v).save(finishedRecipeConsumer));
 
-        // Exluded Recipes
+        // Excluded Recipes
         for (String excluded : ModRegistration.EXCLUDED_RAW_TYPES) {
             new NeverEnderRecipeBuilder()
                     .setBlock(mappedBlocks.get( excluded + "_ore"))
