@@ -39,7 +39,7 @@ import java.util.function.Supplier;
 @SuppressWarnings("unused")
 public class ModRegistration {
 
-    public static final String[] ORE_TYPES = { "never_ender_cinnabar", "never_ender_coal", "never_ender_copper",
+    public static final String[] ORE_TYPES = {"never_ender_coal",  "never_ender_cinnabar", "never_ender_copper",
             "never_ender_diamond", "never_ender_emerald", "never_ender_gold", "never_ender_iron",
             "never_ender_lapis", "never_ender_lead", "never_ender_nickel", "never_ender_niter",
             "never_ender_oil_sand", "never_ender_osmium", "never_ender_quartz", "never_ender_redstone",
@@ -109,9 +109,10 @@ public class ModRegistration {
 
     public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, NeverEnderOreMod.MODID);
 
-    public static final int VEIN_SIZE = 9;
+    public static final int VEIN_SIZE = 20;
     public static final RegistryObject<ConfiguredFeature<?, ?>> END_ORES = CONFIGURED_FEATURES.register("never_ender_ore",
             () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(MOD_ORES.get(), VEIN_SIZE)));
+
 
     public static final DeferredRegister<PlacedFeature> PLACED_FEATURES =
             DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, NeverEnderOreMod.MODID);
@@ -122,4 +123,5 @@ public class ModRegistration {
                             List.of(CountPlacement.of(VEIN_SIZE), InSquarePlacement.spread(),
                                     HeightRangePlacement.uniform(VerticalAnchor.absolute(10),
                                             VerticalAnchor.absolute(180)))));
+
 }

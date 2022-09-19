@@ -42,6 +42,7 @@ public class ModLang extends LanguageProvider {
         oreTrans.put("tin", "Never Ender Tin Ore");
         oreTrans.put("uraninite", "Never Ender Uraninite Ore");
         oreTrans.put("uranium", "Never Ender Uranium Ore");
+        oreTrans.put("osmium", "Never Ender Osmium Ore");
 
         oreTrans.forEach((k, v) -> add("block.neverenderore.never_ender_" + k + "_ore", v));
 
