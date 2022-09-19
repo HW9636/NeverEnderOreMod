@@ -10,6 +10,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
@@ -20,11 +21,13 @@ public class NeverEnderOreSerializer implements RecipeSerializer<NeverEnderRecip
 
 
     @Override
-    public NeverEnderRecipe fromJson(ResourceLocation recipeId, JsonObject serializedRecipe) {
+    public @NotNull NeverEnderRecipe fromJson(@NotNull ResourceLocation recipeId, @NotNull JsonObject serializedRecipe) {
         ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(serializedRecipe, "result"));
         Block validBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(serializedRecipe.get("block").getAsString()));
+        int ticks = GsonHelper.getAsInt(serializedRecipe, "ticks");
+        int energy = GsonHelper.getAsInt(serializedRecipe, "energy");
 
-        return new NeverEnderRecipe(recipeId, result, validBlock);
+        return new NeverEnderRecipe(recipeId, result, validBlock, ticks, energy);
     }
 
     @Override
@@ -33,8 +36,10 @@ public class NeverEnderOreSerializer implements RecipeSerializer<NeverEnderRecip
         int length = pBuffer.readInt();
         Block validBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(pBuffer.readCharSequence(length, Charset.defaultCharset()).toString()));
         ItemStack result = pBuffer.readItem();
+        int ticks = pBuffer.readInt();
+        int energy = pBuffer.readInt();
 
-        return new NeverEnderRecipe(pRecipeId, result, validBlock);
+        return new NeverEnderRecipe(pRecipeId, result, validBlock, ticks, energy);
     }
 
     @Override
@@ -44,5 +49,7 @@ public class NeverEnderOreSerializer implements RecipeSerializer<NeverEnderRecip
         pBuffer.writeInt(stringRl.length());
         pBuffer.writeCharSequence(stringRl, Charset.defaultCharset());
         pBuffer.writeItemStack(pRecipe.getResultItem(), false);
+        pBuffer.writeInt(pRecipe.getTicks());
+        pBuffer.writeInt(pRecipe.getEnergy());
     }
 }

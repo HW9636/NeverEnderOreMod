@@ -54,11 +54,19 @@ public class ModRecipes extends RecipeProvider {
         extractingRecipes.forEach((k, v) -> new NeverEnderRecipeBuilder().setBlock(k).setResult(v).save(finishedRecipeConsumer));
 
         // Excluded Recipes
-        for (String excluded : ModRegistration.EXCLUDED_RAW_TYPES) {
-            new NeverEnderRecipeBuilder()
-                    .setBlock(mappedBlocks.get( excluded + "_ore"))
-                    .setResult(Registry.ITEM.get(new ResourceLocation("minecraft","raw" + excluded.replace("never_ender",""))).getDefaultInstance())
-                    .save(finishedRecipeConsumer, new ResourceLocation(NeverEnderOreMod.MODID, "raw_" + excluded));
-        }
+        new NeverEnderRecipeBuilder()
+                .setBlock(mappedBlocks.get("never_ender_copper_ore"))
+                .setResult(Items.RAW_COPPER.getDefaultInstance())
+                .save(finishedRecipeConsumer, new ResourceLocation(NeverEnderOreMod.MODID, "raw_never_ender_copper"));
+        new NeverEnderRecipeBuilder()
+                .setBlock(mappedBlocks.get("never_ender_gold_ore"))
+                .setResult(Items.RAW_GOLD.getDefaultInstance())
+                .save(finishedRecipeConsumer, new ResourceLocation(NeverEnderOreMod.MODID, "raw_never_ender_gold"));
+        new NeverEnderRecipeBuilder()
+                .setBlock(mappedBlocks.get("never_ender_iron_ore"))
+                .setResult(Items.RAW_IRON.getDefaultInstance())
+                .save(finishedRecipeConsumer, new ResourceLocation(NeverEnderOreMod.MODID, "raw_never_ender_iron"));
+
+
     }
 }

@@ -1,8 +1,10 @@
 {
   "type": "neverenderore:never_ender_ore_extracting",
   "block": "neverenderore:never_ender_uranium_ore",
+  "energy": 500,
   "result": {
     "count": 1,
     "item": "neverenderore:raw_never_ender_uranium"
-  }
+  },
+  "ticks": 40
 }

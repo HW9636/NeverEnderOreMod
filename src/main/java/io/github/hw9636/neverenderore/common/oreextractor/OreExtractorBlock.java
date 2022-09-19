@@ -2,6 +2,7 @@ package io.github.hw9636.neverenderore.common.oreextractor;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
@@ -71,5 +73,20 @@ public class OreExtractorBlock extends BaseEntityBlock {
                 tile.tickServer();
             }
         };
+    }
+
+    @SuppressWarnings("deprecated")
+    @Override
+    public void onRemove(@NotNull BlockState pState, @NotNull Level pLevel, @NotNull BlockPos pPos,
+                         @NotNull BlockState pNewState, boolean pIsMoving) {
+        if (pLevel.getBlockEntity(pPos) instanceof OreExtractorBlockEntity be) {
+            be.dropContents();
+        }
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> GameEventListener getListener(ServerLevel pLevel, T pBlockEntity) {
+        return super.getListener(pLevel, pBlockEntity);
     }
 }

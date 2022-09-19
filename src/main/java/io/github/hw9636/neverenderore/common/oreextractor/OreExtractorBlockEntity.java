@@ -11,6 +11,8 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.Containers;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -36,6 +38,7 @@ public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStora
 
     private int energyStored, progress, state;
     private boolean canInsert;
+    private NeverEnderRecipe recipe;
     ItemStackHandler itemHandler;
     private LazyOptional<IItemHandler> itemHandlerLazy;
     final ContainerData data;
@@ -50,6 +53,7 @@ public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStora
         this.canInsert = false;
         this.data = getData();
         this.state = STATE_INVALID_BLOCk;
+        this.recipe = null;
     }
 
     public void tickServer() {
@@ -57,23 +61,26 @@ public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStora
 
         if (this.energyStored <= 0) return; // Reduce calculations when no energy
 
-        if (++this.progress >= NEOConfig.COMMON.ticksPerAction.get()) {
+        this.progress++;
+        if ((this.recipe != null && this.progress >= recipe.getTicks()) || (this.recipe == null && this.progress >= 40)) {
             this.progress = 0;
 
-            if (this.energyStored >= NEOConfig.COMMON.energyPerAction.get()) {
-                BlockState blockBelow = level.getBlockState(worldPosition.below());
-                Optional<NeverEnderRecipe> recipe = level.getRecipeManager().getAllRecipesFor(NeverEnderRecipeType.INSTANCE).stream()
-                        .filter(r -> blockBelow.is(r.getValidBlock())).findAny();
+            BlockState blockBelow = level.getBlockState(worldPosition.below());
+            Optional<NeverEnderRecipe> recipe = level.getRecipeManager().getAllRecipesFor(NeverEnderRecipeType.INSTANCE).stream()
+                    .filter(r -> blockBelow.is(r.getValidBlock())).findAny();
+            this.recipe = recipe.orElse(null);
 
-                if (recipe.isPresent()) {
+            if (this.recipe != null) {
+
+                if (this.energyStored >= this.recipe.getEnergy()) {
                     this.state = STATE_OK;
-                    this.energyStored -= NEOConfig.COMMON.ticksPerAction.get();
-                     if (!insertItem(recipe.get().getResultItem()).isEmpty())
-                         this.state = STATE_STORAGE_FULL;
+                    this.energyStored -= this.recipe.getEnergy();
+                    if (!insertItem(this.recipe.getResultItem()).isEmpty()) this.state = STATE_STORAGE_FULL;
                 }
-                else this.state = STATE_INVALID_BLOCk;
+                else this.state = STATE_NO_ENERGY;
             }
-            else this.state = STATE_NO_ENERGY;
+            else this.state = STATE_INVALID_BLOCk;
+
         }
     }
 
@@ -91,6 +98,8 @@ public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStora
                     case 1 -> energyStored & 0xffff;
                     case 2 -> progress;
                     case 3 -> state;
+                    case 4 -> recipe == null ? 0 : recipe.getTicks();
+                    case 5 -> recipe == null ? 0 : recipe.getEnergy();
                     default -> 0;
                 };
             }
@@ -107,7 +116,7 @@ public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStora
 
             @Override
             public int getCount() {
-                return 4;
+                return 6;
             }
         };
     }
@@ -254,5 +263,24 @@ public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStora
 
     public int getState() {
         return state;
+    }
+
+    public int getEnergyUsing() {
+        return recipe == null ? 0 : recipe.getEnergy();
+    }
+
+    public int getMaxProgress() {
+        return recipe == null ? 0 : recipe.getTicks();
+    }
+
+    public void dropContents() {
+        if (this.level != null) {
+            SimpleContainer inventory = new SimpleContainer(itemHandler.getSlots());
+            for (int i = 0; i < itemHandler.getSlots(); i++) {
+                inventory.setItem(i, itemHandler.getStackInSlot(i));
+            }
+
+            Containers.dropContents(this.level, this.worldPosition, inventory);
+        }
     }
 }

@@ -15,11 +15,22 @@ public class NeverEnderRecipe implements Recipe<SimpleContainer> {
     private final ResourceLocation id;
     private final ItemStack result;
     private final Block validBlock;
+    private final int ticks, energy;
 
-    public NeverEnderRecipe(ResourceLocation id, ItemStack result, Block validBlock) {
+    public NeverEnderRecipe(ResourceLocation id, ItemStack result, Block validBlock, int ticks, int energy) {
         this.id = id;
         this.result = result;
         this.validBlock = validBlock;
+        this.ticks = ticks;
+        this.energy = energy;
+    }
+
+    public int getTicks() {
+        return ticks;
+    }
+
+    public int getEnergy() {
+        return energy;
     }
 
     public Block getValidBlock() {

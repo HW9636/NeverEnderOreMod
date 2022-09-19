@@ -20,7 +20,7 @@ public class OreExtractorContainer extends AbstractContainerMenu {
     public static final int HOTBAR_SLOTS_END = 35;
 
     public OreExtractorContainer(int id, Inventory playerInv) {
-        this(id, playerInv, BlockPos.ZERO, new SimpleContainerData(4), new ItemStackHandler(4));
+        this(id, playerInv, BlockPos.ZERO, new SimpleContainerData(6), new ItemStackHandler(4));
     }
 
     private final ContainerLevelAccess containerAccess;
@@ -93,6 +93,6 @@ public class OreExtractorContainer extends AbstractContainerMenu {
 
     public static MenuConstructor getServerContainer(OreExtractorBlockEntity entity, BlockPos pos) {
         return (id, playerInv, player) -> new OreExtractorContainer(id, playerInv, pos,
-                new OreExtractorContainerData(entity, 3), entity.itemHandler);
+                new OreExtractorContainerData(entity, 6), entity.itemHandler);
     }
 }

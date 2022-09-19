@@ -1,8 +1,10 @@
 {
   "type": "neverenderore:never_ender_ore_extracting",
   "block": "neverenderore:never_ender_copper_ore",
+  "energy": 500,
   "result": {
     "count": 1,
     "item": "minecraft:raw_copper"
-  }
+  },
+  "ticks": 40
 }

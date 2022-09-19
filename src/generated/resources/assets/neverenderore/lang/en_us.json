@@ -45,6 +45,7 @@
   "item.neverenderore.raw_never_ender_tin": "Raw Tin",
   "item.neverenderore.raw_never_ender_uraninite": "Raw Uraninite",
   "item.neverenderore.raw_never_ender_uranium": "Raw Uranium",
+  "itemGroup.neverenderore": "Never Ender Ore",
   "title.never_ender_ore.jei_category": "Ore Extracting",
   "tooltip.neverenderore.state_invalid_block": "State: Not Valid Block To Mine",
   "tooltip.neverenderore.state_no_energy": "State: Not Enough Energy",

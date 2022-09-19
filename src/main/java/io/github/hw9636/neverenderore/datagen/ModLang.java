@@ -76,5 +76,6 @@ public class ModLang extends LanguageProvider {
         add("tooltip.neverenderore.state_invalid_block", "State: Not Valid Block To Mine");
         add("tooltip.neverenderore.state_storage_full", "State: Not Enough Storage");
         add("title.never_ender_ore.jei_category", "Ore Extracting");
+        add("itemGroup.neverenderore", "Never Ender Ore");
     }
 }

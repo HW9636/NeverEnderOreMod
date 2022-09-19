@@ -37,10 +37,10 @@ public class TOPProvider implements IProbeInfoProvider, Function<ITheOneProbe, V
 
         if (block instanceof OreExtractorBlock) {
             if (level.getBlockEntity(iProbeHitData.getPos()) instanceof OreExtractorBlockEntity be) { // Sanity Check should always be OreExtractorBE
-                iProbeInfo.progress(be.getProgress(), NEOConfig.COMMON.ticksPerAction.get(), style);
+                iProbeInfo.progress(be.getProgress(), be.getMaxProgress(), style);
 
                 switch (be.getState()) {
-                    case OreExtractorBlockEntity.STATE_OK -> iProbeInfo.text(Component.translatable("tooltip.neverenderore.state_ok", NEOConfig.COMMON.ticksPerAction.get()));
+                    case OreExtractorBlockEntity.STATE_OK -> iProbeInfo.text(Component.translatable("tooltip.neverenderore.state_ok", be.getEnergyUsing()));
                     case OreExtractorBlockEntity.STATE_INVALID_BLOCk -> iProbeInfo.text(Component.translatable("tooltip.neverenderore.state_invalid_block"));
                     case OreExtractorBlockEntity.STATE_STORAGE_FULL -> iProbeInfo.text(Component.translatable("tooltip.neverenderore.state_storage_full"));
                     case OreExtractorBlockEntity.STATE_NO_ENERGY -> iProbeInfo.text(Component.translatable("tooltip.neverenderore.state_no_energy"));

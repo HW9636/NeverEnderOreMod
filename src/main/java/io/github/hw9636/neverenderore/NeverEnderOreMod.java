@@ -23,14 +23,9 @@ import org.slf4j.Logger;
 public class NeverEnderOreMod
 {
     public static final String MODID = "neverenderore";
-    private static final Logger LOGGER = LogUtils.getLogger();
-
     private boolean TOPLoaded;
 
     /* TODO: 9/18/2022
-           ItemGroup does not have a translation
-           NeverEnderCopperOre recipe gives dirt
-           Change Recipe to include Ticks and energy per craft,
            No Drops from block when broken
      */
 

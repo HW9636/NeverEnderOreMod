@@ -46,13 +46,13 @@ public class OreExtractorScreen extends AbstractContainerScreen<OreExtractorCont
         RenderSystem.setShaderTexture(0, TEXTURE);
         this.blit(pPoseStack, i, j, 0, 0, this.imageWidth, this.imageHeight);
 
-        int progress = mapNum(menu.data.get(2), NEOConfig.COMMON.ticksPerAction.get(), 25);
+        int progress = mapNum(menu.data.get(2), menu.data.get(4), 25);
         this.blit(pPoseStack, i + 76, j + 46, 193, 9, progress, 3);
 
         int energy = (menu.data.get(0) << 16) | menu.data.get(1);
         int feProgress = mapNum(energy, NEOConfig.COMMON.maxEnergyStored.get(), 71);
 
-        this.blit(pPoseStack, i + 165, j + 80 - feProgress, 185, 80 - feProgress, 4, feProgress);
+        this.blit(pPoseStack, i + 165, j + 79 - feProgress, 185, 79 - feProgress, 4, feProgress);
     }
 
 

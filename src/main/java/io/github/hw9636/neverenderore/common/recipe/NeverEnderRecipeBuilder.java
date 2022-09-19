@@ -19,9 +19,11 @@ public class NeverEnderRecipeBuilder implements RecipeBuilder {
 
     private Block block;
     private ItemStack output;
+    private int energy, ticks;
 
     public NeverEnderRecipeBuilder() {
-
+        ticks = 40;
+        energy = 500;
     }
 
     public NeverEnderRecipeBuilder setBlock(Block block) {
@@ -31,6 +33,16 @@ public class NeverEnderRecipeBuilder implements RecipeBuilder {
 
     public NeverEnderRecipeBuilder setResult(ItemStack result) {
         this.output = result;
+        return this;
+    }
+
+    public NeverEnderRecipeBuilder setTicks(int ticks) {
+        this.ticks = ticks;
+        return this;
+    }
+
+    public NeverEnderRecipeBuilder setEnergy(int energy) {
+        this.energy = energy;
         return this;
     }
 
@@ -51,7 +63,7 @@ public class NeverEnderRecipeBuilder implements RecipeBuilder {
 
     @Override
     public void save(Consumer<FinishedRecipe> pFinishedRecipeConsumer, ResourceLocation pRecipeId) {
-        pFinishedRecipeConsumer.accept(new Result(pRecipeId, output, block));
+        pFinishedRecipeConsumer.accept(new Result(pRecipeId, output, block, ticks, energy));
     }
 
     public static class Result implements FinishedRecipe {
@@ -59,11 +71,14 @@ public class NeverEnderRecipeBuilder implements RecipeBuilder {
         private final ResourceLocation id;
         private final ItemStack result;
         private final Block validBlock;
+        private final int ticks, energy;
 
-        private Result(ResourceLocation id, ItemStack result, Block validBlock) {
+        private Result(ResourceLocation id, ItemStack result, Block validBlock, int ticks, int energy) {
             this.id = id;
             this.result = result;
             this.validBlock = validBlock;
+            this.ticks = ticks;
+            this.energy = energy;
         }
 
         @Override
@@ -72,6 +87,8 @@ public class NeverEnderRecipeBuilder implements RecipeBuilder {
             JsonObject result = new JsonObject();
             result.addProperty("item", ForgeRegistries.ITEMS.getKey(this.result.getItem()).toString());
             result.addProperty("count", this.result.getCount());
+            json.addProperty("ticks", ticks);
+            json.addProperty("energy", energy);
 
             json.add("result", result);
         }
