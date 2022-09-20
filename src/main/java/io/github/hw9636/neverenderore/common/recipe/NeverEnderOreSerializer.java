@@ -1,7 +1,6 @@
 package io.github.hw9636.neverenderore.common.recipe;
 
 import com.google.gson.JsonObject;
-import io.github.hw9636.neverenderore.NeverEnderOreMod;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -17,8 +16,6 @@ import java.nio.charset.Charset;
 
 public class NeverEnderOreSerializer implements RecipeSerializer<NeverEnderRecipe> {
     public static final NeverEnderOreSerializer INSTANCE = new NeverEnderOreSerializer();
-    public static final ResourceLocation ID = new ResourceLocation(NeverEnderOreMod.MODID, NeverEnderRecipeType.id);
-
 
     @Override
     public @NotNull NeverEnderRecipe fromJson(@NotNull ResourceLocation recipeId, @NotNull JsonObject serializedRecipe) {
@@ -31,7 +28,7 @@ public class NeverEnderOreSerializer implements RecipeSerializer<NeverEnderRecip
     }
 
     @Override
-    public @Nullable NeverEnderRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
+    public @Nullable NeverEnderRecipe fromNetwork(@NotNull ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
 
         int length = pBuffer.readInt();
         Block validBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(pBuffer.readCharSequence(length, Charset.defaultCharset()).toString()));

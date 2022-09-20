@@ -25,6 +25,8 @@ public class NeverEnderOre extends Block {
         if (!player.isCreative() && !tool.is(ModRegistration.ORE_REMOVER.get()) ) {
             if (state.is(this)) level.setBlockAndUpdate(pos, state);
         }
+
+        if (tool.is(ModRegistration.ORE_REMOVER.get())) tool.hurtAndBreak(1, player, (ignored) -> {});
     }
 }
 

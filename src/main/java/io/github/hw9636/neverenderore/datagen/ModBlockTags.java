@@ -2,9 +2,12 @@ package io.github.hw9636.neverenderore.datagen;
 
 import io.github.hw9636.neverenderore.NeverEnderOreMod;
 import io.github.hw9636.neverenderore.common.ModRegistration;
+import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
@@ -25,6 +28,17 @@ public class ModBlockTags extends BlockTagsProvider {
                 .add(ores);
         tag(BlockTags.NEEDS_DIAMOND_TOOL)
                 .add(ores);
+        tag(blockTag("forge:ores")).add(ores);
+
+        for (int i = 0;i<ModRegistration.ORE_TYPES.length;i++) {
+            String type = ModRegistration.ORE_TYPES[i];
+            tag(blockTag("forge:ores/" + type.replace("never_ender_", ""))).add(ores[i]);
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    private TagKey<Block> blockTag(String tag) {
+        return TagKey.create(Registry.BLOCK.key(), new ResourceLocation(tag));
     }
 
     @Override

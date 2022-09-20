@@ -2,14 +2,18 @@ package io.github.hw9636.neverenderore.common.oreextractor;
 
 import io.github.hw9636.neverenderore.common.ModRegistration;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 public class OreExtractorContainer extends AbstractContainerMenu {
 
@@ -49,6 +53,22 @@ public class OreExtractorContainer extends AbstractContainerMenu {
         addSlot(new SlotItemHandler(slots, 2, 101, 26) { @Override public boolean mayPlace(@NotNull ItemStack stack) { return false; } });
         addSlot(new SlotItemHandler(slots, 3, 122, 26) { @Override public boolean mayPlace(@NotNull ItemStack stack) { return false; } });
 
+        Optional<Block> currentlyMining = containerAccess.evaluate((level, blockPos) -> level.getBlockState(blockPos.below()).getBlock());
+
+        if (currentlyMining.isPresent()) {
+            SimpleContainer container = new SimpleContainer(new ItemStack(currentlyMining.get().asItem()));
+            addSlot(new Slot(container, 0, 80, 26) {
+                @Override
+                public boolean mayPlace(@NotNull ItemStack pStack) {
+                    return false;
+                }
+
+                @Override
+                public boolean mayPickup(@NotNull Player pPlayer) {
+                    return false;
+                }
+            });
+        }
     }
 
     @Override

@@ -4,12 +4,9 @@ import io.github.hw9636.neverenderore.NeverEnderOreMod;
 import io.github.hw9636.neverenderore.common.ModRegistration;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class ModItemModels extends ItemModelProvider {
 
@@ -30,5 +27,7 @@ public class ModItemModels extends ItemModelProvider {
         });
 
         withExistingParent(ModRegistration.ORE_EXTRACTOR_BLOCK.getId().getPath(), modLoc("block/ore_extractor"));
+
+        basicItem(ModRegistration.ORE_REMOVER.get());
     }
 }

@@ -1,6 +1,30 @@
 {
   "type": "forge:add_features",
   "biomes": "#minecraft:is_end",
-  "features": "neverenderore:never_ender_ore_placed",
+  "features": [
+    "neverenderore:never_ender_aluminium_ore_feature",
+    "neverenderore:never_ender_cinnabar_ore_feature",
+    "neverenderore:never_ender_coal_ore_feature",
+    "neverenderore:never_ender_copper_ore_feature",
+    "neverenderore:never_ender_diamond_ore_feature",
+    "neverenderore:never_ender_emerald_ore_feature",
+    "neverenderore:never_ender_gold_ore_feature",
+    "neverenderore:never_ender_iron_ore_feature",
+    "neverenderore:never_ender_lapis_ore_feature",
+    "neverenderore:never_ender_lead_ore_feature",
+    "neverenderore:never_ender_nickel_ore_feature",
+    "neverenderore:never_ender_niter_ore_feature",
+    "neverenderore:never_ender_oil_sand_ore_feature",
+    "neverenderore:never_ender_osmium_ore_feature",
+    "neverenderore:never_ender_quartz_ore_feature",
+    "neverenderore:never_ender_redstone_ore_feature",
+    "neverenderore:never_ender_ruby_ore_feature",
+    "neverenderore:never_ender_sapphire_ore_feature",
+    "neverenderore:never_ender_silver_ore_feature",
+    "neverenderore:never_ender_sulfur_ore_feature",
+    "neverenderore:never_ender_tin_ore_feature",
+    "neverenderore:never_ender_uraninite_ore_feature",
+    "neverenderore:never_ender_uranium_ore_feature"
+  ],
   "step": "underground_ores"
 }

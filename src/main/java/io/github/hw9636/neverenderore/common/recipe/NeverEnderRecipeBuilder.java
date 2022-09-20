@@ -13,6 +13,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public class NeverEnderRecipeBuilder implements RecipeBuilder {
@@ -62,7 +63,7 @@ public class NeverEnderRecipeBuilder implements RecipeBuilder {
     }
 
     @Override
-    public void save(Consumer<FinishedRecipe> pFinishedRecipeConsumer, ResourceLocation pRecipeId) {
+    public void save(Consumer<FinishedRecipe> pFinishedRecipeConsumer, @NotNull ResourceLocation pRecipeId) {
         pFinishedRecipeConsumer.accept(new Result(pRecipeId, output, block, ticks, energy));
     }
 
@@ -83,9 +84,9 @@ public class NeverEnderRecipeBuilder implements RecipeBuilder {
 
         @Override
         public void serializeRecipeData(JsonObject json) {
-            json.addProperty("block", ForgeRegistries.BLOCKS.getKey(this.validBlock).toString());
+            json.addProperty("block", Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(this.validBlock)).toString());
             JsonObject result = new JsonObject();
-            result.addProperty("item", ForgeRegistries.ITEMS.getKey(this.result.getItem()).toString());
+            result.addProperty("item", Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(this.result.getItem())).toString());
             result.addProperty("count", this.result.getCount());
             json.addProperty("ticks", ticks);
             json.addProperty("energy", energy);

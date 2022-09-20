@@ -1,6 +1,5 @@
 package io.github.hw9636.neverenderore;
 
-import com.mojang.logging.LogUtils;
 import io.github.hw9636.neverenderore.client.screen.OreExtractorScreen;
 import io.github.hw9636.neverenderore.common.ModRegistration;
 import io.github.hw9636.neverenderore.common.config.NEOConfig;
@@ -17,17 +16,12 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.slf4j.Logger;
 
 @Mod(NeverEnderOreMod.MODID)
 public class NeverEnderOreMod
 {
     public static final String MODID = "neverenderore";
     private boolean TOPLoaded;
-
-    /* TODO: 9/18/2022
-           No Drops from block when broken
-     */
 
     public NeverEnderOreMod()
     {

@@ -27,7 +27,7 @@ displayName="Never Ender Ore" #mandatory
 # A URL for the "homepage" for this mod, displayed in the mod UI
 #displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
-logoFile="examplemod.png" #optional
+# logoFile="examplemod.png" #optional
 # A text field displayed in the mod UI
 credits="Thanks to BenBenlaw for the mod idea, gurkysword12 for textures" #optional
 # A text field displayed in the mod UI
@@ -42,7 +42,7 @@ authors="9636Dev, BenBenLaw, gurkysword12" #optional
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Never Ender Ore is a mod that adds ender ore which could be mined with ore miners
+Never Ender Ore is a mod that adds 'Never Ender Ore' which could be mined with 'Ore Extractors'
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.neverenderore]] #optional

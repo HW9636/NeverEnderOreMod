@@ -2,31 +2,25 @@ package io.github.hw9636.neverenderore.common.oreextractor;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 public class OreExtractorBlock extends BaseEntityBlock {
 
@@ -35,6 +29,7 @@ public class OreExtractorBlock extends BaseEntityBlock {
     public OreExtractorBlock() {
         super(BlockBehaviour.Properties.of(Material.STONE));
     }
+
 
     @SuppressWarnings("deprecation")
     @Override
@@ -47,13 +42,6 @@ public class OreExtractorBlock extends BaseEntityBlock {
         }
 
         return InteractionResult.SUCCESS;
-    }
-
-    @Override
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable BlockGetter pLevel, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        super.appendHoverText(stack, pLevel, tooltip, flag);
-
-
     }
 
     @Nullable
@@ -75,7 +63,7 @@ public class OreExtractorBlock extends BaseEntityBlock {
         };
     }
 
-    @SuppressWarnings("deprecated")
+    @SuppressWarnings("deprecation")
     @Override
     public void onRemove(@NotNull BlockState pState, @NotNull Level pLevel, @NotNull BlockPos pPos,
                          @NotNull BlockState pNewState, boolean pIsMoving) {
@@ -84,9 +72,9 @@ public class OreExtractorBlock extends BaseEntityBlock {
         }
     }
 
-    @Nullable
+    @SuppressWarnings("deprecation")
     @Override
-    public <T extends BlockEntity> GameEventListener getListener(ServerLevel pLevel, T pBlockEntity) {
-        return super.getListener(pLevel, pBlockEntity);
+    public @NotNull RenderShape getRenderShape(@NotNull BlockState pState) {
+        return RenderShape.MODEL;
     }
 }

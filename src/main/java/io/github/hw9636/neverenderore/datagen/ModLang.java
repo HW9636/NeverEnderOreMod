@@ -30,7 +30,7 @@ public class ModLang extends LanguageProvider {
         oreTrans.put("lapis", "Never Ender Lapis Ore");
         oreTrans.put("lead", "Never Ender Lead Ore");
         oreTrans.put("nickel", "Never Ender Nickel Ore");
-        oreTrans.put("niter", "Never Ender Tier Ore");
+        oreTrans.put("niter", "Never Ender Niter Ore");
         oreTrans.put("oil_sand", "Never Ender Oil Sand Ore");
         oreTrans.put("osmium_ore", "Never Ender Osmium Ore");
         oreTrans.put("quartz", "Never Ender Quartz Ore");

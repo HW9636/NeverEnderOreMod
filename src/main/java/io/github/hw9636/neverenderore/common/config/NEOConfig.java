@@ -7,10 +7,7 @@ public class NEOConfig {
     public static class Common
     {
         private static final int defaultMaxEnergyStored = 100_000;
-
         public final ForgeConfigSpec.ConfigValue<Integer> maxEnergyStored;
-
-
         public Common(ForgeConfigSpec.Builder builder)
         {
             this.maxEnergyStored = builder.comment("Max Energy Stored, range 100 - 100,000,000, default 100,000")

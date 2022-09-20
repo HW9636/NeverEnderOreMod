@@ -45,8 +45,8 @@ public class NeverEnderRecipe implements Recipe<SimpleContainer> {
 
     @Deprecated
     @Override
-    public ItemStack assemble(@NotNull SimpleContainer pContainer) {
-        return null;
+    public @NotNull ItemStack assemble(@NotNull SimpleContainer pContainer) {
+        return result;
     }
 
     @Override

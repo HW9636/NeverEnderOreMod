@@ -4,7 +4,6 @@ import com.mojang.logging.LogUtils;
 import io.github.hw9636.neverenderore.NeverEnderOreMod;
 import io.github.hw9636.neverenderore.common.ModRegistration;
 import io.github.hw9636.neverenderore.common.recipe.NeverEnderRecipeBuilder;
-import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;

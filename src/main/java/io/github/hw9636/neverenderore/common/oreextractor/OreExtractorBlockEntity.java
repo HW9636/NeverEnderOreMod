@@ -69,6 +69,7 @@ public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStora
             Optional<NeverEnderRecipe> recipe = level.getRecipeManager().getAllRecipesFor(NeverEnderRecipeType.INSTANCE).stream()
                     .filter(r -> blockBelow.is(r.getValidBlock())).findAny();
             this.recipe = recipe.orElse(null);
+            this.requestModelDataUpdate();
 
             if (this.recipe != null) {
 
@@ -125,7 +126,9 @@ public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStora
 
     private ItemStack insertItem(ItemStack item) {
         if (itemHandlerLazy.isPresent()) {
-            IItemHandler inv = itemHandlerLazy.orElse(null);
+
+            IItemHandler inv = itemHandlerLazy.orElseThrow(() -> new RuntimeException("ItemHandler Not Present"));
+
             for (int i = 0;i<inv.getSlots();i++) {
                 canInsert = true;
                 item = inv.insertItem(i, item.copy(), false);
@@ -163,6 +166,7 @@ public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStora
         energyStored = tag.getInt("EnergyStored");
         progress = tag.getInt("Progress");
         itemHandler.deserializeNBT(tag.getCompound("Inventory"));
+        this.requestModelDataUpdate();
     }
 
     @Override

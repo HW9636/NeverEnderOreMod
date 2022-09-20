@@ -28,12 +28,10 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTes
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
@@ -43,7 +41,7 @@ public class ModRegistration {
             "never_ender_diamond", "never_ender_emerald", "never_ender_gold", "never_ender_iron",
             "never_ender_lapis", "never_ender_lead", "never_ender_nickel", "never_ender_niter",
             "never_ender_oil_sand", "never_ender_osmium", "never_ender_quartz", "never_ender_redstone",
-            "never_ender_ruby", "never_ender_sapphire", "never_ender_sulfur", "never_ender_tin", "never_ender_uranium",
+            "never_ender_ruby", "never_ender_sapphire", "never_ender_silver", "never_ender_sulfur", "never_ender_tin", "never_ender_uranium",
             "never_ender_aluminium", "never_ender_uraninite"};
 
     public static final List<String> EXCLUDED_RAW_TYPES = List.of("never_ender_gold", "never_ender_iron", "never_ender_copper");
@@ -69,7 +67,7 @@ public class ModRegistration {
             () -> new BlockItem(ORE_EXTRACTOR_BLOCK.get(), new Item.Properties().tab(MOD_TAB)));
 
     public static final RegistryObject<Item> ORE_REMOVER = ITEMS.register("ore_remover",
-            () -> new Item(new Item.Properties().tab(MOD_TAB)));
+            () -> new Item(new Item.Properties().tab(MOD_TAB).stacksTo(1).defaultDurability(32)));
 
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, NeverEnderOreMod.MODID);
     @SuppressWarnings("ConstantConditions")
@@ -86,9 +84,22 @@ public class ModRegistration {
     public static final RegistryObject<NeverEnderOreSerializer> NEVer_ENDER_ORE_RECIPE_SERIALIZER =
             RECIPE_SERIALIZERS.register("never_ender_ore_extracting", () -> NeverEnderOreSerializer.INSTANCE);
 
-    public static final Supplier<List<OreConfiguration.TargetBlockState>> MOD_ORES;
+    public static final Map<String, Supplier<List<OreConfiguration.TargetBlockState>>> MOD_ORES = new LinkedHashMap<>();
 
+    public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, NeverEnderOreMod.MODID);
+
+    public static final int VEIN_SIZE = 4;
+    public static final Map<String, RegistryObject<ConfiguredFeature<?, ?>>> END_ORES = new LinkedHashMap<>();
+    public static final DeferredRegister<PlacedFeature> PLACED_FEATURES =
+            DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, NeverEnderOreMod.MODID);
     static {
+
+        Map<String, Pair<Integer, Integer>> oreGenBounds = new LinkedHashMap<>();
+
+        oreGenBounds.put("never_ender_diamond", Pair.of(-128, 64));
+        oreGenBounds.put("never_ender_emerald", Pair.of(-96, 96));
+        oreGenBounds.put("never_ender_coal", Pair.of(40, 120));
+
 
         for (String type : ORE_TYPES) {
             RegistryObject<Block> block = ORES.register(type + "_ore", NeverEnderOre::new);
@@ -96,32 +107,26 @@ public class ModRegistration {
                     () -> new BlockItem(block.get(), new Item.Properties().tab(MOD_TAB)));
 
             if (!EXCLUDED_RAW_TYPES.contains(type)) RAW_ORE_ITEMS.register("raw_" + type, RawNeverEnderItem::new);
-        }
 
-        MOD_ORES = Suppliers.memoize(() -> {
-            List<OreConfiguration.TargetBlockState> targetBlockStates = new ArrayList<>();
-            ORES.getEntries().stream().map(RegistryObject::get).forEach(b -> {
-                targetBlockStates.add(OreConfiguration.target(new BlockMatchTest(Blocks.END_STONE), b.defaultBlockState()));
-            });
-            return targetBlockStates;
-        });
+
+            MOD_ORES.put(type,
+                    Suppliers.memoize(() ->
+                            List.of(OreConfiguration.target(new BlockMatchTest(Blocks.END_STONE), block.get().defaultBlockState()))));
+
+            RegistryObject<ConfiguredFeature<?,?>> feature = CONFIGURED_FEATURES.register(type + "_ore",
+                    () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(MOD_ORES.get(type).get(), VEIN_SIZE)));
+
+            Pair<Integer, Integer> bounds = oreGenBounds.getOrDefault(type, Pair.of(10, 110));
+            PLACED_FEATURES.register(type + "_ore_feature", getPlacedFeature(feature, bounds.getLeft(), bounds.getRight()));
+        }
     }
 
-    public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, NeverEnderOreMod.MODID);
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    private static Supplier<PlacedFeature> getPlacedFeature(RegistryObject<ConfiguredFeature<?,?>> feature, int lowerBound, int upperBound) {
+        return () -> new PlacedFeature(feature.getHolder().get(), List.of(CountPlacement.of(VEIN_SIZE),
+                InSquarePlacement.spread(), HeightRangePlacement.uniform(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound))));
+    }
 
-    public static final int VEIN_SIZE = 20;
-    public static final RegistryObject<ConfiguredFeature<?, ?>> END_ORES = CONFIGURED_FEATURES.register("never_ender_ore",
-            () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(MOD_ORES.get(), VEIN_SIZE)));
 
-
-    public static final DeferredRegister<PlacedFeature> PLACED_FEATURES =
-            DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, NeverEnderOreMod.MODID);
-
-    public static final RegistryObject<PlacedFeature> NEVER_ENDER_ORE_FEATURE =
-            PLACED_FEATURES.register("never_ender_ore_placed",
-                    () -> new PlacedFeature(END_ORES.getHolder().get(),
-                            List.of(CountPlacement.of(VEIN_SIZE), InSquarePlacement.spread(),
-                                    HeightRangePlacement.uniform(VerticalAnchor.absolute(10),
-                                            VerticalAnchor.absolute(180)))));
 
 }
