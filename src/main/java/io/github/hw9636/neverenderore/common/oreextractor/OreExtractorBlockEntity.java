@@ -11,12 +11,19 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.gameevent.GameEventListener;
+import net.minecraft.world.level.gameevent.PositionSource;
+import net.minecraft.world.level.gameevent.PositionSourceType;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -28,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStorage {
+public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStorage, GameEventListener {
 
     // States
     public static final int STATE_OK = 0;
@@ -56,32 +63,30 @@ public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStora
         this.recipe = null;
     }
 
-    public void tickServer() {
-        if (level == null || level.isClientSide) return; // Only server-side ticks
-
-        if (this.energyStored <= 0) return; // Reduce calculations when no energy
-
-        this.progress++;
-        if ((this.recipe != null && this.progress >= recipe.getTicks()) || (this.recipe == null && this.progress >= 40)) {
-            this.progress = 0;
-
+    private void checkRecipe() {
+        if (level != null) {
             BlockState blockBelow = level.getBlockState(worldPosition.below());
             Optional<NeverEnderRecipe> recipe = level.getRecipeManager().getAllRecipesFor(NeverEnderRecipeType.INSTANCE).stream()
                     .filter(r -> blockBelow.is(r.getValidBlock())).findAny();
             this.recipe = recipe.orElse(null);
             this.requestModelDataUpdate();
+        }
+        if (recipe == null) this.state = STATE_INVALID_BLOCk;
+    }
 
-            if (this.recipe != null) {
+    public void tickServer() {
+        if (level == null || level.isClientSide) return; // Only server-side ticks
+        if (this.energyStored <= 0) return; // Reduce calculations when no energy
 
-                if (this.energyStored >= this.recipe.getEnergy()) {
-                    this.state = STATE_OK;
-                    this.energyStored -= this.recipe.getEnergy();
-                    if (!insertItem(this.recipe.getResultItem()).isEmpty()) this.state = STATE_STORAGE_FULL;
-                }
-                else this.state = STATE_NO_ENERGY;
+        if (this.recipe != null && this.state != STATE_STORAGE_FULL && ++this.progress >= recipe.getTicks()) {
+            this.progress = 0;
+
+            if (this.energyStored >= this.recipe.getEnergy()) {
+                this.state = STATE_OK;
+                this.energyStored -= this.recipe.getEnergy();
+                if (!insertItem(this.recipe.getResultItem()).isEmpty()) this.state = STATE_STORAGE_FULL;
             }
-            else this.state = STATE_INVALID_BLOCk;
-
+            else this.state = STATE_NO_ENERGY;
         }
     }
 
@@ -151,7 +156,11 @@ public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStora
 
             @Override
             public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-                if (!simulate) OreExtractorBlockEntity.this.setChanged();
+                if (!simulate) {
+                    OreExtractorBlockEntity.this.setChanged();
+                    if (OreExtractorBlockEntity.this.state == STATE_STORAGE_FULL)
+                        OreExtractorBlockEntity.this.state = STATE_INVALID_BLOCk;
+                }
                 return super.extractItem(slot, amount, simulate);
             }
         };
@@ -174,6 +183,7 @@ public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStora
         super.onLoad();
 
         itemHandlerLazy = LazyOptional.of(() -> itemHandler);
+        checkRecipe();
     }
 
     @Nullable
@@ -286,5 +296,42 @@ public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStora
 
             Containers.dropContents(this.level, this.worldPosition, inventory);
         }
+    }
+    @Override
+    public @NotNull PositionSource getListenerSource() {
+        return new PositionSource() {
+            @Override
+            public @NotNull Optional<Vec3> getPosition(@NotNull Level level) {
+                return Optional.of(new Vec3(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ()));
+            }
+
+            @Override
+            public @NotNull PositionSourceType<?> getType() {
+                return PositionSourceType.BLOCK;
+            }
+        };
+    }
+
+    @Override
+    public int getListenerRadius() {
+        return 1;
+    }
+
+    @Override
+    public boolean handleGameEvent(@NotNull ServerLevel level, GameEvent.@NotNull Message eventMessage) {
+
+        if (this.isRemoved()) return false;
+
+        GameEvent event = eventMessage.gameEvent();
+        if (event == GameEvent.BLOCK_CHANGE || event == GameEvent.BLOCK_PLACE || event == GameEvent.BLOCK_DESTROY) {
+            OreExtractorBlockEntity.this.checkRecipe();
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean handleEventsImmediately() {
+        return true;
     }
 }
