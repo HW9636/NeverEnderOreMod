@@ -258,7 +258,7 @@ public class OreExtractorBlockEntity extends BlockEntity implements IEnergyStora
             this.requestModelDataUpdate();
         }
 
-        return maxReceive - toReceive;
+        return toReceive;
     }
 
     @Override

@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "neverenderore:ore/never_ender_ruby_ore"
-  }
-}

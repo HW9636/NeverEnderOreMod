@@ -29,12 +29,12 @@ public class ModItemTags extends ItemTagsProvider {
         HashMap<String, Item> rawOresMapped = new HashMap<>();
         ModRegistration.RAW_ORE_ITEMS.getEntries().forEach(r -> rawOresMapped.put(r.getId().getPath(), r.get()));
 
-        tag(itemTag("forge:ores")).add(ores);
+        tag(itemTag("forge:ores/neverenderore")).add(ores);
         tag(itemTag("forge:raw_materials")).add(rawOres);
 
         for (int i = 0;i<ModRegistration.ORE_TYPES.length;i++) {
             String type = ModRegistration.ORE_TYPES[i];
-            tag(itemTag("forge:ores/" + type.replace("never_ender_", ""))).add(ores[i]);
+            tag(itemTag("forge:ores/neverenderore/" + type.replace("never_ender_", ""))).add(ores[i]);
             tag(itemTag("forge:raw_materials/" + type.replace("never_ender_", "")))
                     .add(rawOresMapped.get("raw_" + type));
         }

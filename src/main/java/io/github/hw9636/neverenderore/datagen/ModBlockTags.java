@@ -28,11 +28,11 @@ public class ModBlockTags extends BlockTagsProvider {
                 .add(ores);
         tag(BlockTags.NEEDS_DIAMOND_TOOL)
                 .add(ores);
-        tag(blockTag("forge:ores")).add(ores);
+        tag(blockTag("forge:ores/neverenderore")).add(ores);
 
         for (int i = 0;i<ModRegistration.ORE_TYPES.length;i++) {
             String type = ModRegistration.ORE_TYPES[i];
-            tag(blockTag("forge:ores/" + type.replace("never_ender_", ""))).add(ores[i]);
+            tag(blockTag("forge:ores/neverenderore/" + type.replace("never_ender_", ""))).add(ores[i]);
         }
     }
 
