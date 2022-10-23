@@ -85,6 +85,7 @@ public class OreExtractorBlock extends BaseEntityBlock {
         }
 
         super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
+
     }
 
     @SuppressWarnings("deprecation")

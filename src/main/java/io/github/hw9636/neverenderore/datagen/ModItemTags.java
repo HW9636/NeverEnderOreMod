@@ -9,6 +9,7 @@ import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
@@ -28,15 +29,18 @@ public class ModItemTags extends ItemTagsProvider {
         Item[] rawOres = ModRegistration.RAW_ORE_ITEMS.getEntries().stream().map(RegistryObject::get).toArray(Item[]::new);
         HashMap<String, Item> rawOresMapped = new HashMap<>();
         ModRegistration.RAW_ORE_ITEMS.getEntries().forEach(r -> rawOresMapped.put(r.getId().getPath(), r.get()));
+        for (String s : ModRegistration.EXCLUDED_RAW_TYPES) rawOresMapped.remove(s);
 
-        tag(itemTag("forge:ores/neverenderore")).add(ores);
+        tag(itemTag("neverenderore:neo")).add(ores);
         tag(itemTag("forge:raw_materials")).add(rawOres);
 
         for (int i = 0;i<ModRegistration.ORE_TYPES.length;i++) {
             String type = ModRegistration.ORE_TYPES[i];
-            tag(itemTag("forge:ores/neverenderore/" + type.replace("never_ender_", ""))).add(ores[i]);
-            tag(itemTag("forge:raw_materials/" + type.replace("never_ender_", "")))
-                    .add(rawOresMapped.get("raw_" + type));
+            tag(itemTag("neverenderore:neo/" + type.replace("never_ender_", ""))).add(ores[i]);
+            Item rawOre = rawOresMapped.get("raw_" + type);
+            if (rawOre != null && rawOre != Items.AIR)
+                tag(itemTag("forge:raw_materials/" + type.replace("never_ender_", "")))
+                        .add(rawOre);
         }
     }
 

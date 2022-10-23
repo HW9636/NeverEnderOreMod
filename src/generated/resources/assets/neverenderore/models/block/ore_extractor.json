@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "neverenderore:block/ore_extractor_bottom",
+    "side": "neverenderore:block/ore_extractor_side",
+    "top": "neverenderore:block/ore_extractor_top"
+  }
+}

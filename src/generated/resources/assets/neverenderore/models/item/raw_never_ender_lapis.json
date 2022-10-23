@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "neverenderore:raw/raw_never_ender_lapis"
+  }
+}
